@@ -1,11 +1,12 @@
-from . import utils, model
+from . import model
 import numpy as np
+from scipy import special
 
 class OccupancyModel(model.UnmarkedModel):
     def __init__(self, det_formula, occ_formula,  data):
         self.response = model.Response(data.y)
-        occ = model.Submodel("Occupancy", "occ", occ_formula, utils.inv_logit, data.site_covs)
-        det = model.Submodel("Detection", "det", det_formula, utils.inv_logit, data.obs_covs)
+        occ = model.Submodel("Occupancy", "occ", occ_formula, special.expit, data.site_covs)
+        det = model.Submodel("Detection", "det", det_formula, special.expit, data.obs_covs)
         self.submodels = model.SubmodelDict(occ=occ, det=det)
     
     def negloglik(self, x, mod):

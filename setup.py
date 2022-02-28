@@ -18,5 +18,8 @@ setup(
     author_email='contact@kenkellner.com',
     url='',
     license='',
+    install_requires=[
+        'numpy', 'pandas', 'scipy', 'patsy', 'prettytable'
+    ],
     packages=find_packages(exclude=('tests', 'docs'))
 )

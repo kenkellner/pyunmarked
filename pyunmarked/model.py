@@ -119,7 +119,7 @@ class SubmodelDict(object):
             print("")
     
     def coeftable(self, level=95):
-        tabs = {k: x.coeftable(level=level) for k, x in mod.submodels.submodels.items()}
+        tabs = {k: x.coeftable(level=level) for k, x in self.submodels.items()}
         tabs = pd.concat(tabs)
         return tabs.reset_index(drop=True)
      
