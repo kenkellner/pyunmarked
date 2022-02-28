@@ -9,7 +9,7 @@ class OccupancyModel(model.UnmarkedModel):
         det = model.Submodel("Detection", "det", det_formula, special.expit, data.obs_covs)
         self.submodels = model.SubmodelDict(occ=occ, det=det)
     
-    def negloglik(self, x, mod):
+    def negloglik(self, x, mod, K):
         x = np.array(x)
         beta_occ = x[mod["occ"].index]
         beta_det = x[mod["det"].index]

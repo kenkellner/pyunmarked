@@ -135,15 +135,17 @@ class UnmarkedModel(object):
     def __getitem__(self, arg):
         return self.submodels.submodels[arg]
     
-    def negloglik(self, x, mod):
+    def negloglik(self, x, mod, K):
         pass
         
-    def fit(self, x0=None, gtol=None):
-        gtol = 1e-6 * self.response.y.shape[0] if gtol is None else gtol
+    def fit(self, x0=None, tol=None, K=None):
+        tol = 1e-6 * self.response.y.shape[0] if tol is None else tol
         #gtol = 1e-6 if gtol is None else gtol
         x0 = np.repeat(0, self.submodels.npars()) if x0 is None else x0
-        self.opt = optimize.minimize(self.negloglik, x0, self, method="BFGS",
-                options={"gtol": gtol})
+        self.opt = optimize.minimize(self.negloglik, x0, (self, K), method="BFGS",
+                options={"gtol": tol})
+        self.opt.tol = tol
+        self.opt.K = K
         self.submodels.get_estimates(self.opt)
         self.submodels.get_vcov(self.opt)
          
