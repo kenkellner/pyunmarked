@@ -142,6 +142,7 @@ class UnmarkedModel(object):
         tol = 1e-6 * self.response.y.shape[0] if tol is None else tol
         #gtol = 1e-6 if gtol is None else gtol
         x0 = np.repeat(0, self.submodels.npars()) if x0 is None else x0
+        K = self.response.y.max() + 20 if K is None else K
         self.opt = optimize.minimize(self.negloglik, x0, (self, K), method="BFGS",
                 options={"gtol": tol})
         self.opt.tol = tol
