@@ -36,6 +36,5 @@ class OccupancyModel(model.UnmarkedModel):
         z = np.random.binomial(1, psi, N)
         y = np.empty((N, J))
         for i in range(N):
-            for j in range(J):
-                y[i,j] = np.random.binomial(1, z[i]*p[i,j], 1)
+            y[i,] = np.random.binomial(1, z[i]*p[i,], J)
         return y

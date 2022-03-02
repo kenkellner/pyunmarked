@@ -29,3 +29,13 @@ class NmixtureModel(model.UnmarkedModel):
             nll -= np.log(fg.sum())
         
         return nll
+
+    def simulate(self):
+        N, J = self.response.y.shape
+        lam = self.predict("abun", interval=False)
+        p = self.predict("det", interval=False).reshape(N, J)
+        z = np.random.poisson(lam, N)
+        y = np.empty((N, J))
+        for i in range(N):
+            y[i,] = np.random.binomial(z[i], p[i,], J)
+        return y
